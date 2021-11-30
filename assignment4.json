@@ -1,0 +1,33 @@
+{
+    "candies": [ 
+        {
+            "type": "Caramel",
+            "price": 0.50,
+            "quantity": 5
+        },
+        {
+            "type": "Chocolate",
+            "price": 1.25,
+            "quantity": 3
+        },
+        {
+            "type": "Gummies",
+            "price": 0.25,
+            "quantity": 15
+        },
+        {
+            "type": "Licorice",
+            "price": 1.00,
+            "quantity": 26
+        },
+        {
+            "type": "Gum",
+            "price": 0.10,
+            "quantity": 20
+        },
+        {
+            "type": "Lollipop",
+            "price": 0.30,
+            "quantity": 7
+        }
+]}
