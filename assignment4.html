@@ -1,0 +1,83 @@
+<html>
+<body>
+  <h2>Assignment 4: Sweet Tooth Paradise</h2> 
+  <h3>This web application gets the current list of products being sold at "Sweet Tooth Paradise"!</h3>
+  <br>
+  <h3>Cakes (XML)</h3>
+  <ul id="cakes">
+  </ul>
+  <br>
+  <h3>Candies (JSON)</h3>
+  <ul id="candies">
+  </ul>
+  <br>
+  <button type="button" onclick="GetXMLList()">
+    Get List of Cakes
+  </button>
+  <br>
+  <button type="button" onclick="GetJsonList()">
+    Get List of Candies
+  </button>
+
+  <script>
+    // XML
+    function GetXMLList() {
+        var xhttpRequest = new XMLHttpRequest();
+        xhttpRequest.responseType = 'text/xml'; // response type is formatted as text/xml
+        xhttpRequest.onreadystatechange = function () {
+            if (xhttpRequest.readyState == 4 && xhttpRequest.status == 200) { // Once ready -> process xml document
+                ProcessXMLDocument(xhttpRequest.responseXML);
+            }
+        };
+        xhttpRequest.open("GET", "assignment4.xml",true); // get xml
+        xhttpRequest.send();
+    }
+    // Process xml doc
+    function ProcessXMLDocument(xmlDoc) { 
+        // Loop through each cake
+        for (let i = 0; i < xmlDoc.getElementsByTagName("cakes")[0].children.length; i++) {
+            let list = document.createElement("li"); // Make 'li' element
+            // Add $2.50 to the price of each cake.
+            let node = document.createTextNode(
+            "A " + xmlDoc.getElementsByTagName("cake")[i].getElementsByTagName("size")[0].textContent +
+            " sized " + xmlDoc.getElementsByTagName("cake")[i].getElementsByTagName("type")[0].textContent +
+            " is currently being sold for $" + (parseInt(xmlDoc.getElementsByTagName("cake")[i].getElementsByTagName("price")[0].textContent) + 2.50) + "!"
+            );
+            list.appendChild(node); // Append text node to 'li' element
+            let element = document.getElementById("cakes"); // Get the 'ul' element with the id 'cakes'
+            element.appendChild(list); // Append 'li' element to the element.
+        }
+    }
+
+    // JSON
+    function GetJsonList() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.timeout = 3000;
+      xhttp.responseType = "json"; // response type is formatted as json
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) { // Once ready -> process json
+          ProcessJSON(this.response);
+        }
+      };
+      xhttp.open("GET", "assignment4.json", true); // get json
+      xhttp.send();
+    }
+    // Process json
+    function ProcessJSON(json) {
+        // Loop through each candy
+        for(let i = 0; i < json.candies.length; i++) {
+            let list = document.createElement("li"); // Make 'li' element
+            // Add the price of $0.50 for each candy.
+            let node = document.createTextNode(
+            json.candies[i].type + 
+            " is currently being sold for the price of $" + (json.candies[i].price + 0.50) + 
+            ". At this moment there are " + json.candies[i].quantity + " " + json.candies[i].type + "'s in stock!"
+            );
+            list.appendChild(node); // Append text node to 'li' element
+            let element = document.getElementById("candies"); // Get the 'ul' element with the id 'candies'
+            element.appendChild(list); // Append 'li' element to the element.
+        }
+    }
+  </script>
+</body>
+</html>
